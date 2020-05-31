@@ -19,3 +19,5 @@ packages = [
 
 # need to escape
 poetry add --dev coverage\[toml\] 
+
+nox had to be install in separate bash shell
