@@ -1,6 +1,7 @@
 # tests/test_console.py
 import click.testing
 import pytest
+import requests
 
 from hypermodern_python import console
 
@@ -39,7 +40,13 @@ def test_main_uses_en_wikipedia_org(runner, mock_requests_get):
     args, _ = mock_requests_get.call_args
     assert "en.wikipedia.org" in args[0]
 
-def test_main_fails_on_request_error(runner, mock_requests_get):
-    mock_requests_get.side_effect = Exception("Boom")
+#def test_main_fails_on_request_error(runner, mock_requests_get):
+#    mock_requests_get.side_effect = Exception("Boom")
+#    result = runner.invoke(console.main)
+#    assert result.exit_code == 1
+
+def test_main_prints_message_on_request_error(runner, mock_requests_get):
+    mock_requests_get.side_effect = requests.RequestException
     result = runner.invoke(console.main)
-    assert result.exit_code == 1
+    assert "Error" in result.output
+
